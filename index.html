@@ -1,17 +1,209 @@
 <!doctype html>
-<html lang="es-CR">
+<html lang="es-AR">
 <head>
   <meta charset="utf-8" />
-  <title>Biblioteca pública · @naciceleste</title>
-  <meta name="robots" content="noindex" />
-  <link rel="canonical" href="https://biblioteca.naciceleste.dev/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>naciceleste.dev · el rincón de Ⱥrmin</title>
+  <meta name="description" content="Los proyectos de @naciceleste (Ⱥrmin) en un solo cielo: la Biblioteca pública, la Guía de TV y el Diario online. Bajá y seguí el camino ☁️" />
+  <meta name="theme-color" content="#cfe8ff" />
+  <meta name="color-scheme" content="light dark" />
+  <meta property="og:title" content="naciceleste.dev · el rincón de Ⱥrmin" />
+  <meta property="og:description" content="Mis proyectos en un solo cielo: la Biblioteca pública, la Guía de TV y el Diario online ☁️" />
+  <meta property="og:image" content="https://naciceleste.dev/assets/avatar.jpg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://naciceleste.dev/" />
+  <link rel="canonical" href="https://naciceleste.dev/" />
   <script>
-    location.replace("https://biblioteca.naciceleste.dev" + location.pathname + location.search + location.hash);
+    /* tema antes de pintar (evita parpadeo): elección guardada o, si no hay, modo día */
+    (function () {
+      var t = null; try { t = localStorage.getItem("tema"); } catch (e) {}
+      if (t !== "dark" && t !== "light") t = "light";   // por defecto: cielo de día
+      document.documentElement.setAttribute("data-theme", t);
+    })();
   </script>
-  <meta http-equiv="refresh" content="0; url=https://biblioteca.naciceleste.dev/" />
-  <style>body{font-family:system-ui,sans-serif;background:#141b45;color:#dfe6ff;display:grid;place-items:center;min-height:100vh;margin:0;text-align:center}a{color:#8fd0ff}</style>
+  <link rel="icon" href="assets/favicon-32.png?v=1" type="image/png" sizes="32x32" />
+  <link rel="icon" href="assets/favicon-192.png?v=1" type="image/png" sizes="192x192" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,600&family=Merriweather:ital,opsz,wght@1,18..144,700&family=Nunito:wght@400;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <p>Te llevo a la <a href="https://biblioteca.naciceleste.dev/">Biblioteca pública</a> ☁️</p>
+  <!-- cielo de fondo -->
+  <div class="sky" aria-hidden="true">
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+    <div class="glow glow-3"></div>
+    <svg class="cloud cloud-1" viewBox="0 0 200 100"><use href="#cloud-shape"/></svg>
+    <svg class="cloud cloud-2" viewBox="0 0 200 100"><use href="#cloud-shape"/></svg>
+    <svg class="cloud cloud-3" viewBox="0 0 200 100"><use href="#cloud-shape"/></svg>
+    <svg class="cloud cloud-4" viewBox="0 0 200 100"><use href="#cloud-shape"/></svg>
+    <div class="sparkles"></div>
+    <div class="stars stars-1"></div>
+    <div class="stars stars-2"></div>
+    <div class="moon"></div>
+    <div class="shooting"></div>
+  </div>
+
+  <!-- capas de color que cambian al bajar (celeste → rosa → lila) -->
+  <div class="flow" aria-hidden="true">
+    <div class="flow-l flow-rosa"></div>
+    <div class="flow-l flow-lila"></div>
+  </div>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="trail-grad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#8ccaf7"/>
+        <stop offset="0.55" stop-color="#b9a3f0"/>
+        <stop offset="1" stop-color="#f3a6c4"/>
+      </linearGradient>
+      <linearGradient id="star-grad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#8fcaff"/>
+        <stop offset="0.5" stop-color="#bfa3ff"/>
+        <stop offset="1" stop-color="#ff8fc0"/>
+      </linearGradient>
+      <linearGradient id="diary-bg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#ffe8f0"/>
+        <stop offset="1" stop-color="#f3e6ff"/>
+      </linearGradient>
+      <linearGradient id="diary-photo" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#bfe2ff"/>
+        <stop offset="1" stop-color="#d9c9f7"/>
+      </linearGradient>
+      <symbol id="cloud-shape" viewBox="0 0 200 100">
+        <path fill="currentColor" d="M52 88c-22 0-40-14-40-32s17-31 37-31c2 0 4 0 6 .4C62 11 78 2 97 2c22 0 41 14 45 33 3-.6 5-.9 8-.9 21 0 38 13 38 30s-17 24-38 24H52z"/>
+      </symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path fill="currentColor" d="M17.75 3h3.07l-6.7 7.66L22 21h-6.17l-4.83-6.32L5.47 21H2.4l7.17-8.2L2 3h6.33l4.37 5.77L17.75 3Zm-1.08 16.17h1.7L7.4 4.74H5.58l11.09 14.43Z"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M7 17 17 7M9 7h8v8"/></symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5Zm3 8H9V7a3 3 0 0 1 6 0v3Z"/></symbol>
+      <symbol id="i-sparkle" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.5l1.9 5.6 5.6 1.9-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.9L12 2.5Z"/></symbol>
+      <!-- estrellita pastel propia: recorre el camino con glow y estela de destellos -->
+      <symbol id="i-star" viewBox="0 0 64 64">
+        <path fill="url(#star-grad)" stroke="#fff" stroke-width="2" stroke-linejoin="round"
+          d="M32 6 39.64 21.48 56.73 23.97 44.36 36.02 47.29 53.03 32 45 16.71 53.03 19.64 36.02 7.27 23.97 24.36 21.48Z"/>
+        <circle cx="26" cy="22" r="3" fill="#fff" opacity=".6"/>
+      </symbol>
+      <!-- portada de diario pastel: placeholder para el proyecto "muy pronto" -->
+      <symbol id="diary-cover" viewBox="0 0 800 500">
+        <rect width="800" height="500" fill="url(#diary-bg)"/>
+        <circle cx="120" cy="110" r="46" fill="#fff" opacity=".35"/>
+        <circle cx="680" cy="400" r="60" fill="#fff" opacity=".28"/>
+        <rect x="232" y="96" width="372" height="352" rx="16" fill="#e9ddf6"/>
+        <rect x="208" y="74" width="372" height="352" rx="16" fill="#fffdf8" stroke="#efe4fb" stroke-width="2"/>
+        <text x="394" y="138" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-style="italic" font-weight="700" font-size="34" fill="#c879a6">El Diario</text>
+        <rect x="236" y="156" width="316" height="3" rx="1.5" fill="#ecdff4"/>
+        <rect x="236" y="178" width="150" height="96" rx="10" fill="url(#diary-photo)"/>
+        <path fill="#fff" opacity=".92" d="M311 206 316.29 218.72 330.02 219.82 319.56 228.78 322.76 242.18 311 235 299.24 242.18 302.44 228.78 291.98 219.82 305.71 218.72Z"/>
+        <g fill="#e4d8f1">
+          <rect x="400" y="182" width="150" height="8" rx="4"/>
+          <rect x="400" y="202" width="150" height="8" rx="4"/>
+          <rect x="400" y="222" width="120" height="8" rx="4"/>
+          <rect x="400" y="248" width="150" height="8" rx="4"/>
+          <rect x="400" y="268" width="90" height="8" rx="4"/>
+        </g>
+        <g fill="#e9dff4">
+          <rect x="236" y="298" width="150" height="7" rx="3.5"/>
+          <rect x="236" y="316" width="150" height="7" rx="3.5"/>
+          <rect x="236" y="334" width="150" height="7" rx="3.5"/>
+          <rect x="236" y="352" width="120" height="7" rx="3.5"/>
+          <rect x="402" y="298" width="150" height="7" rx="3.5"/>
+          <rect x="402" y="316" width="150" height="7" rx="3.5"/>
+          <rect x="402" y="334" width="130" height="7" rx="3.5"/>
+          <rect x="402" y="352" width="150" height="7" rx="3.5"/>
+        </g>
+      </symbol>
+    </defs>
+  </svg>
+
+  <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Cambiar a modo oscuro">
+    <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></g></svg>
+    <svg class="moon-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.2 14.6A8.6 8.6 0 0 1 9.4 3.8a.6.6 0 0 0-.8-.7 9.4 9.4 0 1 0 12.3 12.3.6.6 0 0 0-.7-.8Z"/><path fill="currentColor" d="M16.6 3.2l.5 1.3 1.3.5-1.3.5-.5 1.3-.5-1.3-1.3-.5 1.3-.5zM20 7.6l.35.85.85.35-.85.35-.35.85-.35-.85-.85-.35.85-.35z"/></svg>
+  </button>
+
+  <!-- ░░ intro ░░ -->
+  <header class="hero">
+    <a class="avatar" href="https://x.com/naciceleste" target="_blank" rel="noopener" aria-label="Ⱥrmin (@naciceleste) en Twitter">
+      <img src="assets/avatar.jpg" alt="Foto de perfil de Ⱥrmin" width="400" height="400" />
+      <span aria-hidden="true">✦</span>
+    </a>
+    <p class="eyebrow">bienvenid@ a mi rincón</p>
+    <h1 class="title">Lo que hace Ⱥrmin<br/>en internet</h1>
+    <a class="handle" href="https://x.com/naciceleste" target="_blank" rel="noopener">@naciceleste</a>
+    <p class="tagline">Tres proyectos chiquitos, hechos con cariño y curiosidad. Bajá despacio y seguí el camino de la estrellita ☁️</p>
+    <a class="scroll-hint" href="#recorrido">
+      <span>bajá</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg>
+    </a>
+  </header>
+
+  <!-- ░░ recorrido ░░ -->
+  <main id="recorrido" class="journey" aria-labelledby="journey-title">
+    <div class="journey-intro">
+      <span class="eyebrow-pill">EL RECORRIDO</span>
+      <h2 class="journey-title" id="journey-title">Tres paradas en el cielo</h2>
+    </div>
+
+    <!-- el camino punteado + la estrellita (decorativo, lo dibuja vitrina.js) -->
+    <svg class="path-svg" id="path-svg" aria-hidden="true" preserveAspectRatio="none">
+      <path class="path-base" id="path-base" fill="none" />
+      <path class="path-trail" id="path-trail" fill="none" />
+    </svg>
+    <div class="traveller" id="traveller" aria-hidden="true">
+      <span class="spark spark-a"></span>
+      <span class="spark spark-b"></span>
+      <span class="spark spark-c"></span>
+      <svg viewBox="0 0 64 64"><use href="#i-star"/></svg>
+    </div>
+
+    <ol class="steps" id="steps" aria-label="Mis proyectos">
+      <!-- vitrina.js rellena las tarjetas desde el array PROYECTOS.
+           Sin JS, se ven las de <noscript> de abajo. -->
+      <noscript>
+        <li class="step">
+          <article class="step-card accent-celeste">
+            <div class="step-num">1</div>
+            <div class="step-thumb"><img src="assets/shot-biblioteca.webp" alt="Captura de la Biblioteca pública de naciceleste" loading="lazy" width="800" height="500" /></div>
+            <h3 class="step-name">Biblioteca pública</h3>
+            <p class="step-desc">Todo lo que me gusta, guardado en un solo lugar: posts de X, Instagram, YouTube y TikTok.</p>
+            <a class="step-cta" href="https://biblioteca.naciceleste.dev/" target="_blank" rel="noopener">Entrar a la biblioteca
+              <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </article>
+        </li>
+        <li class="step">
+          <article class="step-card accent-lila">
+            <div class="step-num">2</div>
+            <div class="step-thumb"><img src="assets/shot-guia.webp" alt="Captura de la Guía de TV de naciceleste" loading="lazy" width="800" height="500" /></div>
+            <h3 class="step-name">Guía de TV <span class="step-tag"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-lock"/></svg>con clave</span></h3>
+            <p class="step-desc">Mi guía de programación para no perderme nada. Está protegida con clave.</p>
+            <a class="step-cta" href="https://guia.naciceleste.dev/" target="_blank" rel="noopener">Abrir la guía
+              <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </article>
+        </li>
+        <li class="step">
+          <article class="step-card accent-pink is-soon">
+            <div class="step-num">3</div>
+            <div class="step-thumb step-thumb-soon" aria-hidden="true"><svg viewBox="0 0 800 500"><use href="#diary-cover"/></svg></div>
+            <h3 class="step-name">Diario online <span class="step-tag soon">pronto</span></h3>
+            <p class="step-desc">Un feed de noticias de mis intereses, armado con la calma de un diario de toda la vida.</p>
+            <span class="step-cta is-disabled">Muy pronto ☁️</span>
+          </article>
+        </li>
+      </noscript>
+    </ol>
+  </main>
+
+  <footer class="footer">
+    <p>Hecho con colaboración agéntica · <a href="https://x.com/naciceleste" target="_blank" rel="noopener">@naciceleste</a></p>
+    <p class="legal">naciceleste.dev — el cielito de Ⱥrmin. Cada proyecto abre en su propia pestaña ☁️</p>
+  </footer>
+
+  <button class="to-top" id="to-top" aria-label="Volver arriba" hidden>↑</button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="vitrina.js" defer></script>
 </body>
 </html>
