@@ -1,13 +1,14 @@
 /* ☁️ naciceleste.dev — vitrina
    La página se arma sola desde este array: para sumar un proyecto, agregá un
    objeto acá y listo. Las tarjetas se dibujan a lo largo de un camino punteado
-   que un avioncito de papel recorre al bajar. Sin JS se ven las tarjetas del
+   que una estrellita pastel recorre al bajar. Sin JS se ven las tarjetas del
    <noscript> en el HTML; con "movimiento reducido" se ven quietas y completas. */
 
 var PROYECTOS = [
   {
     num: 1,
-    icon: "📚",
+    shot: "assets/shot-biblioteca.webp",
+    shotAlt: "Captura de la Biblioteca pública de naciceleste",
     name: "Biblioteca pública",
     desc: "Todo lo que me gusta, guardado en un solo lugar: posts de X, Instagram, YouTube y TikTok.",
     cta: "Entrar a la biblioteca",
@@ -16,7 +17,8 @@ var PROYECTOS = [
   },
   {
     num: 2,
-    icon: "📺",
+    shot: "assets/shot-guia.webp",
+    shotAlt: "Captura de la Guía de TV de naciceleste",
     name: "Guía de TV",
     desc: "Mi guía de programación para no perderme nada. Está protegida con clave.",
     tag: { text: "con clave", lock: true },
@@ -26,7 +28,7 @@ var PROYECTOS = [
   },
   {
     num: 3,
-    icon: "📰",
+    cover: "diary",
     name: "Diario online",
     desc: "Un feed de noticias de mis intereses, armado con la calma de un diario de toda la vida.",
     tag: { text: "pronto", soon: true },
@@ -66,7 +68,7 @@ var PROYECTOS = [
       gsap.registerPlugin(ScrollTrigger);
       animate(journey, steps);
     } else {
-      // sin GSAP o con movimiento reducido: trail completo y avión en la última parada
+      // sin GSAP o con movimiento reducido: trail completo y estrellita en la última parada
       placeTraveller(1);
     }
   });
@@ -88,10 +90,7 @@ var PROYECTOS = [
       num.className = "step-num";
       num.textContent = p.num;
 
-      var ico = document.createElement("div");
-      ico.className = "step-icon";
-      ico.setAttribute("aria-hidden", "true");
-      ico.textContent = p.icon || "✨";
+      var media = buildMedia(p);
 
       var h = document.createElement("h3");
       h.className = "step-name";
@@ -118,7 +117,7 @@ var PROYECTOS = [
       }
 
       card.appendChild(num);
-      card.appendChild(ico);
+      card.appendChild(media);
       card.appendChild(h);
       card.appendChild(desc);
       card.appendChild(cta);
@@ -130,6 +129,30 @@ var PROYECTOS = [
     ol.appendChild(frag);
   }
 
+  /* miniatura real (webp) o, para el proyecto "muy pronto", la portada del diario */
+  function buildMedia(p) {
+    var box = document.createElement("div");
+    box.className = "step-thumb";
+    if (p.shot) {
+      var img = document.createElement("img");
+      img.src = p.shot;
+      img.alt = p.shotAlt || "";
+      img.setAttribute("loading", "lazy");
+      img.setAttribute("width", "800");
+      img.setAttribute("height", "500");
+      box.appendChild(img);
+    } else if (p.cover === "diary") {
+      box.className += " step-thumb-soon";
+      box.setAttribute("aria-hidden", "true");
+      box.appendChild(svgUse("#diary-cover", "0 0 800 500"));
+    } else {
+      box.className = "step-icon";
+      box.setAttribute("aria-hidden", "true");
+      box.textContent = p.icon || "✨";
+    }
+    return box;
+  }
+
   function buildTag(tag) {
     var s = document.createElement("span");
     s.className = "step-tag" + (tag.soon ? " soon" : "");
@@ -138,9 +161,9 @@ var PROYECTOS = [
     return s;
   }
 
-  function svgUse(href) {
+  function svgUse(href, viewBox) {
     var svg = document.createElementNS(SVGNS, "svg");
-    svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("viewBox", viewBox || "0 0 24 24");
     svg.setAttribute("aria-hidden", "true");
     var use = document.createElementNS(SVGNS, "use");
     use.setAttribute("href", href);
@@ -200,25 +223,23 @@ var PROYECTOS = [
   }
   function r(n) { return Math.round(n * 10) / 10; }
 
-  /* ---------- posicionar el avioncito a lo largo del camino (0..1) ---------- */
+  /* ---------- posicionar la estrellita a lo largo del camino (0..1) ---------- */
   function placeTraveller(p) {
     var base = document.getElementById("path-base");
     var trail = document.getElementById("path-trail");
-    var plane = document.getElementById("traveller");
-    if (!base || !plane) return;
+    var star = document.getElementById("traveller");
+    if (!base || !star) return;
     var L = base.getTotalLength();
     if (!L) return;
 
     p = Math.max(0, Math.min(1, p));
     var pt = base.getPointAtLength(L * p);
-    var ahead = base.getPointAtLength(Math.min(L, L * p + 1.5));
-    var ang = Math.atan2(ahead.y - pt.y, ahead.x - pt.x) * 180 / Math.PI;
 
-    plane.style.left = pt.x + "px";
-    plane.style.top = pt.y + "px";
-    plane.style.transform = "rotate(" + ang + "deg)";
+    // la estrellita queda derechita (no rota según la dirección)
+    star.style.left = pt.x + "px";
+    star.style.top = pt.y + "px";
 
-    // la estela se dibuja detrás del avión
+    // la estela se dibuja detrás de la estrellita
     if (trail) {
       trail.style.strokeDasharray = L;
       trail.style.strokeDashoffset = L * (1 - p);
@@ -240,7 +261,7 @@ var PROYECTOS = [
       });
     });
 
-    // el avioncito recorre el camino según el scroll
+    // la estrellita recorre el camino según el scroll
     placeTraveller(0);
     ScrollTrigger.create({
       trigger: journey,

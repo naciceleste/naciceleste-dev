@@ -94,14 +94,22 @@ a{color:inherit}
 .journey-title{margin:16px 0 6px; font-family:"Fraunces",Georgia,serif; font-style:italic; font-weight:600;
   font-size:clamp(30px,5vw,48px); line-height:1.12; color:var(--ink)}
 
-/* camino + avioncito (encima del fondo, debajo de las tarjetas) */
+/* camino + estrellita (encima del fondo, debajo de las tarjetas) */
 .path-svg{position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none; overflow:visible}
 .path-base{stroke:var(--celeste); stroke-width:3; stroke-linecap:round; stroke-dasharray:1 14; opacity:.55}
 .path-trail{stroke:url(#trail-grad); stroke-width:3.5; stroke-linecap:round; opacity:.95}
+/* la estrellita: no rota (queda siempre derechita), con glow suave */
 .traveller{position:absolute; left:0; top:0; z-index:1; width:48px; height:48px; margin:-24px 0 0 -24px;
-  pointer-events:none; filter:drop-shadow(0 8px 14px rgba(90,130,210,.4)); transform:rotate(90deg)}
+  pointer-events:none; filter:drop-shadow(0 0 10px rgba(180,160,245,.6)) drop-shadow(0 6px 12px rgba(120,150,230,.35))}
 .traveller svg{width:100%; height:100%; display:block; animation:floaty 3.4s ease-in-out infinite}
 @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+/* estela sutil de destellos alrededor de la estrellita */
+.spark{position:absolute; border-radius:50%; opacity:0;
+  background:radial-gradient(circle,#fff 35%,rgba(255,255,255,0) 72%); animation:spk 2.4s ease-in-out infinite}
+.spark-a{top:4px; left:28px; width:6px; height:6px}
+.spark-b{top:16px; left:40px; width:5px; height:5px; animation-delay:.6s}
+.spark-c{top:30px; left:16px; width:4px; height:4px; animation-delay:1.2s}
+@keyframes spk{0%,100%{opacity:0; transform:scale(.3)}50%{opacity:.9; transform:scale(1)}}
 
 /* las tarjetas */
 .steps{position:relative; z-index:2; list-style:none; margin:40px auto 0; padding:0; max-width:980px}
@@ -127,6 +135,12 @@ a{color:inherit}
 .step:nth-child(odd) .step-num{right:-18px}
 .step:nth-child(even) .step-num{left:-18px}
 .step-icon{font-size:34px; line-height:1; margin-bottom:8px}
+/* miniaturas reales (y la portada del diario) arriba de la tarjeta */
+.step-thumb{position:relative; width:100%; aspect-ratio:800/500; margin:0 0 16px; border-radius:16px; overflow:hidden;
+  border:1px solid var(--card-border); background:var(--lav-soft); box-shadow:0 10px 24px -12px rgba(79,110,170,.4)}
+.step-thumb img,.step-thumb svg{display:block; width:100%; height:100%; object-fit:cover}
+.step-thumb img{transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+.step-card:hover .step-thumb img{transform:scale(1.045)}
 .step-name{margin:0 0 8px; font-family:"Fraunces",Georgia,serif; font-weight:600; font-size:24px; color:var(--ink);
   display:flex; align-items:center; gap:10px; flex-wrap:wrap}
 .step-tag{display:inline-flex; align-items:center; gap:4px; font-family:"Nunito",sans-serif; font-weight:800; font-size:12px;
@@ -258,6 +272,7 @@ html[data-theme="dark"]{background:#1a1236 linear-gradient(180deg,#0a0f2c 0%,#11
 [data-theme="dark"] .handle:hover{background:rgba(124,170,255,.22)}
 [data-theme="dark"] .theme-toggle{color:#ffe7a3; background:rgba(22,29,70,.66); border-color:rgba(160,180,255,.16); box-shadow:var(--shadow), 0 0 22px -6px rgba(255,231,163,.45)}
 [data-theme="dark"] .path-base{opacity:.4}
+[data-theme="dark"] .traveller{filter:drop-shadow(0 0 12px rgba(180,170,255,.75)) drop-shadow(0 0 26px rgba(150,170,255,.35))}
 [data-theme="dark"] .step-card:hover{border-color:rgba(160,190,255,.28)}
 [data-theme="dark"] .step-tag{color:#bcd9f5; background:rgba(142,197,232,.18)}
 [data-theme="dark"] .step-tag.soon{color:#ffc2d6; background:rgba(243,166,200,.14)}
