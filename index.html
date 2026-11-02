@@ -14,10 +14,11 @@
   <meta property="og:url" content="https://naciceleste.dev/" />
   <link rel="canonical" href="https://naciceleste.dev/" />
   <script>
-    /* tema antes de pintar (evita parpadeo): elección guardada o, si no hay, modo día */
+    /* tema antes de pintar (evita parpadeo): elección guardada o, si no hay, modo noche.
+       clave nueva ("tema2") para que todos arranquen en noche una vez, respetando luego su elección */
     (function () {
-      var t = null; try { t = localStorage.getItem("tema"); } catch (e) {}
-      if (t !== "dark" && t !== "light") t = "light";   // por defecto: cielo de día
+      var t = null; try { t = localStorage.getItem("tema2"); } catch (e) {}
+      if (t !== "dark" && t !== "light") t = "dark";   // por defecto: cielo de noche
       document.documentElement.setAttribute("data-theme", t);
     })();
   </script>

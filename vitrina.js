@@ -299,7 +299,7 @@ var PROYECTOS = [
     btn.addEventListener("click", function () {
       var next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
       document.documentElement.setAttribute("data-theme", next);
-      try { localStorage.setItem("tema", next); } catch (e) {}
+      try { localStorage.setItem("tema2", next); } catch (e) {}
       sync();
       if (window.ScrollTrigger) ScrollTrigger.refresh();
     });
